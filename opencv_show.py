@@ -1,7 +1,8 @@
-import numpy as np
 import cv2
-import gymnasium as gym
+import numpy as np
 
+
+# Creates cliff walking grid
 def initialize_frame():
     width, height = 600, 200
     img = np.ones(shape=(height, width, 3)) * 255.0
@@ -43,17 +44,8 @@ def put_agent(img, state):
                 fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 0), thickness=2)
     return img
 
-frame = initialize_frame()
-CliffEnv = gym.make("CliffWalking-v0", render_mode = "ansi")
-state, _ = CliffEnv.reset()
-done = False
 
-while not done:
-    frame2 = put_agent(frame.copy(), state)
-    cv2.imshow("Grid World", frame2)
-    cv2.waitKey(250)
-    action = int(np.random.randint(low=0, high=4, size=1))
-    print(state, "--->", ["up", "right", "down", "left"][action])
-    state, reward, terminated, truncated, _ = CliffEnv.step(action)
-    done = terminated or truncated
-CliffEnv.close()
+frame = initialize_frame()
+frame = put_agent(frame, 11)
+cv2.imshow("Cliff World", frame)
+cv2.waitKey(0)
